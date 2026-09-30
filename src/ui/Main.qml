@@ -1,12 +1,44 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Layouts
 
 ApplicationWindow {
+    id: root
+
     width: 1200
     height: 800
     visible: true
-    title: "Image Importer"
+    title: "Score Application"
+
+    Settings {
+        id: app_settings
+        property url last_score_folder
+        property url last_import_folder
+    }
+
+    FolderDialog {
+        id: open_score_dialog
+        title: "Open Score Folder"
+        currentFolder: app_settings.last_score_folder
+
+        onAccepted: {
+            app_settings.last_score_folder = selectedFolder
+            status_label.text = "Score folder: " + selectedFolder
+        }
+    }
+
+    FolderDialog {
+        id: import_images_dialog
+        title: "Import Images Folder"
+        currentFolder: app_settings.last_import_folder
+
+        onAccepted: {
+            app_settings.last_import_folder = selectedFolder
+            status_label.text = "Import folder: " + selectedFolder
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -14,21 +46,31 @@ ApplicationWindow {
         spacing: 16
 
         Label {
-            text: "Score Image Importer"
+            text: "Score Application"
             font.pixelSize: 28
             font.bold: true
         }
 
-        Label {
-            text: "Touch enabled: drag to pan, pinch to zoom"
-            opacity: 0.7
+        RowLayout {
+            spacing: 12
+
+            Button {
+                text: "Open Score"
+                onClicked: open_score_dialog.open()
+            }
+
+            Button {
+                text: "Import Images"
+                onClicked: import_images_dialog.open()
+            }
         }
 
-        Button {
-            text: "Import Folder"
-            enabled: false
-            ToolTip.visible: hovered
-            ToolTip.text: "Folder import is the next implementation step."
+        Label {
+            id: status_label
+            Layout.fillWidth: true
+            text: "Open an existing score or choose a folder of source images."
+            elide: Text.ElideMiddle
+            opacity: 0.75
         }
 
         Rectangle {
