@@ -12,6 +12,8 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(img_importer
     src/main.cpp
+    src/app/window_state_manager.cpp
+    src/app/window_state_manager.h
     src/import/image_processor.cpp
     src/import/image_processor.h
 )
