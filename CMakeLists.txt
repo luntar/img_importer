@@ -14,6 +14,8 @@ qt_add_executable(img_importer
     src/main.cpp
     src/app/window_state_manager.cpp
     src/app/window_state_manager.h
+    src/import/import_controller.cpp
+    src/import/import_controller.h
     src/import/image_processor.cpp
     src/import/image_processor.h
 )
