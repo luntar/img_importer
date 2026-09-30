@@ -7,6 +7,8 @@ import QtQuick.Layouts
 ApplicationWindow {
     id: root
 
+    required property var import_controller
+
     width: 1200
     height: 800
     visible: true
@@ -63,14 +65,30 @@ ApplicationWindow {
                 text: "Import Images"
                 onClicked: import_images_dialog.open()
             }
+
+            Button {
+                text: "Prepare Pages"
+                enabled: app_settings.last_import_folder.toString().length > 0 && !root.import_controller.busy
+                onClicked: root.import_controller.clean_directory(app_settings.last_import_folder)
+            }
         }
 
         Label {
             id: status_label
             Layout.fillWidth: true
-            text: "Open an existing score or choose a folder of source images."
+            text: root.import_controller.busy || root.import_controller.status.length > 0
+                  ? root.import_controller.status
+                  : "Open an existing score or choose a folder of source images."
             elide: Text.ElideMiddle
             opacity: 0.75
+        }
+
+        ProgressBar {
+            Layout.fillWidth: true
+            visible: root.import_controller.busy
+            from: 0
+            to: Math.max(1, root.import_controller.total_count)
+            value: root.import_controller.completed_count
         }
 
         Rectangle {
