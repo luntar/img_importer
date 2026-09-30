@@ -12,6 +12,32 @@ The importer turns arbitrary score photographs or rendered PDF pages into a cano
 - Annotations reference stable page IDs and normalized page coordinates.
 - The importer and viewer remain separate applications connected by the score-package format.
 
+## WSL / Linux development environment
+
+WSL/Linux is the primary development path for the score application. Keep the repository in the WSL Linux filesystem (for example, `~/src/img_importer`) rather than under `/mnt/c`.
+
+Install the required packages:
+
+```bash
+chmod +x scripts/install_deps_ubuntu.sh
+./scripts/install_deps_ubuntu.sh
+```
+
+Configure and build with Ninja:
+
+```bash
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build
+```
+
+Run:
+
+```bash
+./build/img_importer
+```
+
+The same CMake project is intended to build natively on WSL/x86-64 and Raspberry Pi OS/ARM64. Initially, build natively on the Raspberry Pi rather than cross-compiling.
+
 ## Windows development environment
 
 The recommended Windows setup is:
